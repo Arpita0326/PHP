@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gandharva 2025 - Event Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ffe8d6, #ffffff);
+            color: #444;
+        }
+
+        header {
+            background-color: #ff6f61;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            margin: 5px 0 0;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 15px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff6f61;
+        }
+
+        section {
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            color: #ff6f61;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        section p {
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #ffefba;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #fff7e6;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        form input,
+        form textarea,
+        form button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        form button {
+            background-color: #ff6f61;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #e4e650;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Gandharva 2025</h1>
+        <p>JSPM RSCOE Grand Event</p>
+    </header>
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about">
+        <h2>About the Event</h2>
+        <p>Gandharva is an annual social gathering at JSPM's Rajarshi Shahu College of Engineering (RSCOE) in Tathawade, Pune, India. It features a week of indoor sports and artistic performances, celebrating creativity, camaraderie, and community spirit.</p>
+    </section>
+
+    <section id="schedule">
+        <h2>Event Schedule</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Session</th>
+                    <th>Speaker/Coordinator</th>
+                </tr>
+            </thead>
+            <tbody id="schedule-body">
+                <!-- Dynamic content from XML will be inserted here -->
+            </tbody>
+        </table>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <section id="register">
+        <h2>Register for Gandharva 2025</h2>
+        <form action="register.php" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+    
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+    
+            <button type="submit">Confirm Registration</button>
+        </form>
+    </section>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('event-schedule.xml')
+                .then(response => response.text())
+                .then(xmlData => {
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(xmlData, "application/xml");
+                    const events = xml.getElementsByTagName("event");
+                    const tableBody = document.querySelector("#schedule-body");
+
+                    Array.from(events).forEach(event => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${event.getElementsByTagName("time")[0].textContent}</td>
+                            <td>${event.getElementsByTagName("session")[0].textContent}</td>
+                            <td>${event.getElementsByTagName("speaker")[0].textContent}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error loading XML:", error));
+        });
+    </script>
+</body>
+</html>
